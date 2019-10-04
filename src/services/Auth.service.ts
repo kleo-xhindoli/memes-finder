@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 import UserService from './User.service';
-import { InvalidEmailOrPasswordError } from '../utils/errors';
+import { InvalidEmailOrPasswordError, EmailExistsError } from '../utils/errors';
 import { IUser, SafeUser } from '../types';
 
-const CYCLES = 100 as const;
+const CYCLES = 10 as const;
 
 function hashPassword(password: string) {
   return bcrypt.hash(password, CYCLES);
@@ -18,7 +18,12 @@ export async function register(
   txtPassword: string,
   firstName: string,
   lastName: string
-): Promise<IUser> {
+): Promise<SafeUser> {
+  const exists = await UserService.findByEmail(email);
+  if (exists) {
+    throw new EmailExistsError();
+  }
+  console.log('register');
   const password = await hashPassword(txtPassword);
   const user = {
     email,
@@ -26,7 +31,12 @@ export async function register(
     firstName,
     lastName,
   };
-  return UserService.create(user);
+  console.log('after');
+  console.log(user);
+  const created = await UserService.create(user);
+  console.log(created);
+  delete created.password;
+  return created;
 }
 
 export async function login(
