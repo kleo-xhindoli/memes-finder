@@ -1,0 +1,19 @@
+{
+  "name": "memes-finder-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.0.50",
+    "nodemon": "^1.19.3",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.3"
+  },
+  "dependencies": {
+    "koa": "^2.8.2"
+  }
+}
