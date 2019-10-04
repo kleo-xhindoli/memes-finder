@@ -10,12 +10,20 @@
   "devDependencies": {
     "@types/dotenv": "^6.1.1",
     "@types/koa": "^2.0.50",
+    "@types/koa-bodyparser": "^4.3.0",
+    "@types/koa-helmet": "^3.1.2",
+    "@types/koa-logger": "^3.1.1",
+    "@types/mongoose": "^5.5.19",
     "nodemon": "^1.19.3",
     "ts-node": "^8.4.1",
     "typescript": "^3.6.3"
   },
   "dependencies": {
     "dotenv": "^8.1.0",
-    "koa": "^2.8.2"
+    "koa": "^2.8.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-helmet": "^5.1.0",
+    "koa-logger": "^3.2.1",
+    "mongoose": "^5.7.3"
   }
 }
