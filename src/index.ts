@@ -1,30 +1,19 @@
-import bodyParser from 'koa-bodyparser';
-import { config } from 'dotenv';
-import Koa from 'koa';
-import logger from 'koa-logger';
-import mongoose from 'mongoose';
-import helmet from 'koa-helmet';
+import config from './config/vars';
+import logger from './config/logger';
+import app from './config/express';
+import { connect } from './config/mongoose';
 
-import router from './routes';
-import { AppState } from './types';
+const { port, nodeEnv, mongoConnectionUri } = config;
 
-config();
+if (!mongoConnectionUri) {
+  throw new Error('No mongo DB connection URI specified in the .env file.');
+}
 
-const port = process.env.PORT;
-const connectionString = process.env.MONGODB_CONNECTION as string;
+// connect to mongoDB
+connect(mongoConnectionUri);
 
-mongoose.connect(connectionString);
-mongoose.connection.on('error', console.error);
+app.listen(port, () =>
+  logger.info(`server started on port ${port} (${nodeEnv})`)
+);
 
-const app = new Koa<AppState>();
-
-app
-  .use(logger())
-  .use(bodyParser())
-  .use(helmet());
-
-
-app.use(router.routes()).use(router.allowedMethods());
-
-app.listen(port);
-console.log(`Server running on port ${port}`);
+export default app;

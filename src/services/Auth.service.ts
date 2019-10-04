@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import UserService from './User.service';
-import { IUser, InvalidEmailOrPasswordError, SafeUser } from '../types';
+import { InvalidEmailOrPasswordError } from '../utils/errors';
+import { IUser, SafeUser } from '../types';
 
 const CYCLES = 100 as const;
 

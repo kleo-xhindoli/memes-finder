@@ -1,12 +1,10 @@
-import Router from 'koa-router';
+import express from 'express';
 import authRouter from './auth';
 
-const basePath = process.env.API_BASE_PATH || 'api';
+const router = express.Router();
 
-const router = new Router({
-  prefix: `/${basePath}`,
-});
+router.get('/status', (req, res) => res.send('OK'));
 
-router.use(authRouter.routes(), authRouter.allowedMethods());
+router.use('/auth', authRouter);
 
 export default router;

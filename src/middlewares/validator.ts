@@ -1,12 +1,15 @@
+import { Response } from 'express';
 import { validate, SchemaMap } from 'joi';
-import { CustomContext } from '../types';
+import { RequestWithCtx, NextFn } from '../types';
 
 export function validateBody(schema: SchemaMap) {
-  return (ctx: CustomContext, next: () => Promise<any>) => {
-    const res = validate(ctx.request.body, schema);
-    ctx.state.validatedBody = res.value;
-    if (res.error) {
-      ctx.throw(400, res.error);
+  return (req: any, res: Response, next: NextFn) => {
+    const validationResult = validate(req.body, schema);
+    req.validatedBody = validationResult.value;
+    if (validationResult.error) {
+      res.status(400).json({
+        error: validationResult.error,
+      });
     }
     next();
   };

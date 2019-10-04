@@ -1,7 +1,13 @@
-import { ParameterizedContext } from "koa";
+import { Request } from 'express';
 
-export interface AppState {
-  validatedBody: any
+export interface Context {
+  validation: {
+    validatedBody: any;
+  };
 }
 
-export type CustomContext = ParameterizedContext<AppState>;
+export interface RequestWithCtx extends Request {
+  ctx: Context;
+}
+
+export type NextFn = (err?: Error | string) => any;

@@ -8,15 +8,14 @@
     "build": "tsc"
   },
   "devDependencies": {
+    "@types/body-parser": "^1.17.1",
     "@types/boom": "^7.3.0",
+    "@types/cors": "^2.8.6",
     "@types/dotenv": "^6.1.1",
+    "@types/helmet": "^0.0.44",
     "@types/joi": "^14.3.3",
-    "@types/koa": "^2.0.50",
-    "@types/koa-bodyparser": "^4.3.0",
-    "@types/koa-helmet": "^3.1.2",
-    "@types/koa-logger": "^3.1.1",
-    "@types/koa-router": "^7.0.42",
     "@types/mongoose": "^5.5.19",
+    "@types/morgan": "^1.7.37",
     "@types/node": "^12.7.11",
     "nodemon": "^1.19.3",
     "ts-node": "^8.4.1",
@@ -24,14 +23,17 @@
   },
   "dependencies": {
     "@types/bcrypt": "^3.0.0",
+    "@types/express": "^4.17.1",
+    "@types/winston": "^2.4.4",
     "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "helmet": "^3.21.1",
     "joi": "^14.3.1",
-    "koa": "^2.8.2",
-    "koa-bodyparser": "^4.2.1",
-    "koa-helmet": "^5.1.0",
-    "koa-logger": "^3.2.1",
-    "koa-router": "^7.4.0",
-    "mongoose": "^5.7.3"
+    "mongoose": "^5.7.3",
+    "morgan": "^1.9.1",
+    "winston": "^3.2.1"
   }
 }
