@@ -1,8 +1,13 @@
+import boom from 'boom';
 import express, { Request, Response } from 'express';
 import joi from 'joi';
 import { validateBody } from '../middlewares/validator';
-import { InvalidEmailOrPasswordError, EmailExistsError } from '../../utils/errors';
+import {
+  InvalidEmailOrPasswordError,
+  EmailExistsError,
+} from '../../utils/errors';
 import { login, register } from '../../services/Auth.service';
+import { NextFn } from '../../types';
 
 const router = express.Router();
 
@@ -54,18 +59,14 @@ router.post(
       .max(30)
       .required(),
   }),
-  async (req: Request, res: Response) => {
+  async (req: Request, res: Response, next: NextFn) => {
     try {
       const { email, password, firstName, lastName } = req.body;
       const registered = await register(email, password, firstName, lastName);
       res.json(registered);
     } catch (e) {
       if (e instanceof EmailExistsError) {
-        res.status(400).json({
-          error: {
-            message: e.message,
-          },
-        });
+        next(boom.badRequest('Email already exists'));
       }
       throw e;
     }

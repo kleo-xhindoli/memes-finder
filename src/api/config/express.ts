@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 
 import routes from '../routes';
+import { converter, notFound, handler } from '../middlewares/error';
 
 const basePath = process.env.API_BASE_PATH || 'api';
 
@@ -31,6 +32,9 @@ app.use(cors());
 // Application routes
 app.use(`/${basePath}`, routes);
 
-// TODO: errors middlewares
+// Error handlers
+app.use(converter);
+app.use(notFound);
+app.use(handler);
 
 export default app;
