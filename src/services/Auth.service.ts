@@ -2,6 +2,8 @@ import bcrypt from 'bcrypt';
 import UserService from './User.service';
 import { InvalidEmailOrPasswordError, EmailExistsError } from '../utils/errors';
 import { UserResponse } from '../types';
+import * as jwt from 'jsonwebtoken';
+import config from '../api/config/vars';
 
 const CYCLES = 10 as const;
 
@@ -47,4 +49,12 @@ export async function login(
   const validPw = await comparePassword(txtPassword, hash);
   if (!validPw) throw new InvalidEmailOrPasswordError();
   return UserService.toResponseObject(user);
+}
+
+export async function checkIfUserIsAuthenticated(token: string) {
+  if (config.secret) {
+    let isAuthed = jwt.verify(token, config.secret);
+    return isAuthed;
+  }
+  throw new Error('jwt secret not found');
 }
