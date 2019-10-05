@@ -1,6 +1,6 @@
 import { Response } from 'express';
 import { validate, SchemaMap } from 'joi';
-import { RequestWithCtx, NextFn } from '../types';
+import { RequestWithCtx, NextFn } from '../../types';
 
 export function validateBody(schema: SchemaMap) {
   return (req: any, res: Response, next: NextFn) => {
@@ -10,7 +10,8 @@ export function validateBody(schema: SchemaMap) {
       res.status(400).json({
         error: validationResult.error,
       });
+    } else {
+      next();
     }
-    next();
   };
 }

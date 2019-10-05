@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express';
 import joi from 'joi';
 import { validateBody } from '../middlewares/validator';
-import { InvalidEmailOrPasswordError, EmailExistsError } from '../utils/errors';
-import { login, register } from '../services/Auth.service';
+import { InvalidEmailOrPasswordError, EmailExistsError } from '../../utils/errors';
+import { login, register } from '../../services/Auth.service';
 
 const router = express.Router();
 

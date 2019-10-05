@@ -1,7 +1,7 @@
-import config from './config/vars';
-import logger from './config/logger';
-import app from './config/express';
-import { connect } from './config/mongoose';
+import config from './api/config/vars';
+import logger from './api/config/logger';
+import app from './api/config/express';
+import { connect } from './api/config/mongoose';
 
 const { port, nodeEnv, mongoConnectionUri } = config;
 
