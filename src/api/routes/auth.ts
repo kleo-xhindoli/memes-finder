@@ -23,21 +23,16 @@ router.post(
       .min(6)
       .required(),
   }),
-  async (req: Request, res: Response) => {
+  async (req: Request, res: Response, next: NextFn) => {
     try {
       const { email, password } = req.body;
       const user = await login(email, password);
       res.json(user);
     } catch (e) {
       if (e instanceof InvalidEmailOrPasswordError) {
-        res.status(400).json({
-          error: {
-            message: e.message,
-          },
-        });
-      } else {
-        throw e;
+        return next(boom.badRequest('email not found!'));
       }
+      next(boom.badImplementation());
     }
   }
 );
@@ -66,9 +61,9 @@ router.post(
       res.json(registered);
     } catch (e) {
       if (e instanceof EmailExistsError) {
-        next(boom.badRequest('Email already exists'));
+        return next(boom.badRequest('Email already exists'));
       }
-      throw e;
+      next(boom.badImplementation());
     }
   }
 );
