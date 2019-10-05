@@ -4,7 +4,6 @@ import { checkIfUserIsAuthenticated } from '../../services/Auth.service';
 import Boom from 'boom';
 
 export default async function auth(req: Request, res: Response, next: NextFn) {
-  console.log('auth here');
 
   let isAuthed;
   const authHeader = req.header('Authorization');
