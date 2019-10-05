@@ -69,4 +69,8 @@ export default class BaseEntity<T extends Document> {
       });
     });
   }
+
+  toResponseObject(entityObject: T) {
+    return entityObject.toObject();
+  }
 }

@@ -1,5 +1,5 @@
 import User from '../models/User';
-import { IUser, PartialUser, UserResponse } from '../types';
+import { IUser, UserInput, UserResponse } from '../types';
 import BaseEntity from './base/BaseEntity';
 
 class UserService extends BaseEntity<IUser> {
@@ -9,7 +9,7 @@ class UserService extends BaseEntity<IUser> {
     });
   }
 
-  async create(user: PartialUser): Promise<IUser> {
+  async create(user: UserInput): Promise<IUser> {
     return super.create(user);
   }
 

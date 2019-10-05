@@ -9,7 +9,7 @@ export interface IUser extends Document {
   updatedAt: Date;
 }
 
-export type PartialUser = Pick<
+export type UserInput = Pick<
   IUser,
   'email' | 'password' | 'firstName' | 'lastName'
 >;
