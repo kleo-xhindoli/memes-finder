@@ -57,7 +57,7 @@ router.post(
   async (req: Request, res: Response) => {
     try {
       const { email, password, firstName, lastName } = req.body;
-      const registered = register(email, password, firstName, lastName);
+      const registered = await register(email, password, firstName, lastName);
       res.json(registered);
     } catch (e) {
       if (e instanceof EmailExistsError) {

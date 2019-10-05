@@ -9,5 +9,11 @@ export interface IUser extends Document {
   updatedAt: Date;
 }
 
-type PartialUser = Pick<IUser, 'email' | 'password' | 'firstName' | 'lastName'>;
-type SafeUser = Omit<IUser, 'password'>;
+export type PartialUser = Pick<
+  IUser,
+  'email' | 'password' | 'firstName' | 'lastName'
+>;
+export type UserResponse = Pick<
+  IUser,
+  '_id' | 'email' | 'firstName' | 'lastName' | 'createdAt' | 'updatedAt'
+>;

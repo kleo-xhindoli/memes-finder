@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import UserService from './User.service';
 import { InvalidEmailOrPasswordError, EmailExistsError } from '../utils/errors';
-import { IUser, SafeUser } from '../types';
+import { UserResponse } from '../types';
 
 const CYCLES = 10 as const;
 
@@ -18,7 +18,7 @@ export async function register(
   txtPassword: string,
   firstName: string,
   lastName: string
-): Promise<SafeUser> {
+): Promise<UserResponse> {
   const exists = await UserService.findByEmail(email);
   if (exists) {
     throw new EmailExistsError();
@@ -32,22 +32,19 @@ export async function register(
     lastName,
   };
   console.log('after');
-  console.log(user);
   const created = await UserService.create(user);
-  console.log(created);
-  delete created.password;
-  return created;
+
+  return UserService.toResponseObject(created);
 }
 
 export async function login(
   email: string,
   txtPassword: string
-): Promise<SafeUser> {
+): Promise<UserResponse> {
   const user = await UserService.findByEmail(email);
   if (!user) throw new InvalidEmailOrPasswordError();
   const hash = user.password;
   const validPw = await comparePassword(txtPassword, hash);
   if (!validPw) throw new InvalidEmailOrPasswordError();
-  delete user.password;
-  return user;
+  return UserService.toResponseObject(user);
 }
