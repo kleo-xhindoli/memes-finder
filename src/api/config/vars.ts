@@ -7,6 +7,7 @@ const {
   PORT: port,
   MONGODB_CONNECTION: mongoConnectionUri,
   API_BASE_PATH: apiBasePath,
+  SECRET: secret,
 } = process.env;
 
 export default {
@@ -14,4 +15,5 @@ export default {
   port,
   mongoConnectionUri,
   apiBasePath,
+  secret,
 };
