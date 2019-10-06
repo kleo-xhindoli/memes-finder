@@ -3,7 +3,7 @@ import UserService from './User.service';
 import { InvalidEmailOrPasswordError, EmailExistsError } from '../utils/errors';
 import { UserResponse } from '../types';
 import * as jwt from 'jsonwebtoken';
-import config from '../api/config/vars';
+import config from '../config';
 
 const CYCLES = 10 as const;
 
@@ -50,9 +50,6 @@ export async function login(
 }
 
 export async function checkIfUserIsAuthenticated(token: string) {
-  if (config.secret) {
-    let isAuthed = jwt.verify(token, config.secret);
-    return isAuthed;
-  }
-  throw new Error('jwt secret not found');
+  let isAuthed = jwt.verify(token, config.secret);
+  return isAuthed;
 }
