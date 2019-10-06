@@ -1,6 +1,6 @@
 import boom from 'boom';
 import { Request, Response } from 'express';
-import config from '../config/vars';
+import config from '../../config';
 import { NextFn } from '../../types';
 
 export function handler(err: any, req: Request, res: Response) {
@@ -12,7 +12,7 @@ export function handler(err: any, req: Request, res: Response) {
     stack: statusCode === 500 ? err.stack : undefined,
   };
 
-  if (config.nodeEnv !== 'development') {
+  if (config.env !== 'development') {
     delete response.stack;
   }
 

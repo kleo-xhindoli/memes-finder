@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import logger from './logger';
-
-const env = process.env.NODE_ENV;
+import config from '../../config';
 
 // set mongoose Promise to Bluebird
 mongoose.Promise = Promise;
@@ -13,7 +12,7 @@ mongoose.connection.on('error', err => {
 });
 
 // print mongoose logs in dev env
-if (env === 'development') {
+if (config.env === 'development') {
   mongoose.set('debug', true);
 }
 

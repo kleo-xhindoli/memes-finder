@@ -3,11 +3,10 @@ import cors from 'cors';
 import express from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
+import config from '../../config';
 
 import routes from '../routes';
 import { converter, notFound, handler } from '../middlewares/error';
-
-const basePath = process.env.API_BASE_PATH || 'api';
 
 /**
  * Express instance
@@ -15,7 +14,7 @@ const basePath = process.env.API_BASE_PATH || 'api';
  */
 const app = express();
 
-const logs = process.env.NODE_ENV === 'production' ? 'combined' : 'dev';
+const logs = config.env === 'production' ? 'combined' : 'dev';
 // request logging. dev: console | production: file
 app.use(morgan(logs));
 
@@ -30,7 +29,7 @@ app.use(helmet());
 app.use(cors());
 
 // Application routes
-app.use(`/${basePath}`, routes);
+app.use(`/${config.apiBasePath}`, routes);
 
 // Error handlers
 app.use(converter);
