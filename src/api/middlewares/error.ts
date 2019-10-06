@@ -5,7 +5,6 @@ import { NextFn } from '../../types';
 
 export function handler(err: any, req: Request, res: Response) {
   const { statusCode } = err.output || 500;
-  console.log(err);
   const response = {
     status: statusCode,
     message: err.message || 'Server Error',
@@ -19,6 +18,11 @@ export function handler(err: any, req: Request, res: Response) {
 
   res.status(response.status);
   res.json(response);
+
+  // Log 5XX errors
+  if (response.status >= 500) {
+    console.error(err);
+  }
 }
 
 export function converter(err: any, req: Request, res: Response, next: NextFn) {

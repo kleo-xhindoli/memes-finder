@@ -25,7 +25,6 @@ export async function register(
   if (exists) {
     throw new EmailExistsError();
   }
-  console.log('register');
   const password = await hashPassword(txtPassword);
   const user = {
     email,
@@ -33,7 +32,6 @@ export async function register(
     firstName,
     lastName,
   };
-  console.log('after');
   const created = await UserService.create(user);
 
   return UserService.toResponseObject(created);
