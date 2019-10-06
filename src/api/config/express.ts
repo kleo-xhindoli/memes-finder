@@ -18,7 +18,7 @@ const logs = config.env === 'production' ? 'combined' : 'dev';
 // request logging. dev: console | production: file
 app.use(morgan(logs));
 
-// parse body params and attache them to req.body
+// parse body params and attach them to req.body
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

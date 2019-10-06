@@ -1,6 +1,7 @@
 import { Document } from 'mongoose';
 
-export interface IUser extends Document {
+export interface User {
+  _id: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -9,11 +10,10 @@ export interface IUser extends Document {
   updatedAt: Date;
 }
 
+type IUser = User & Document;
+
 export type UserInput = Pick<
-  IUser,
+  User,
   'email' | 'password' | 'firstName' | 'lastName'
 >;
-export type UserResponse = Pick<
-  IUser,
-  '_id' | 'email' | 'firstName' | 'lastName' | 'createdAt' | 'updatedAt'
->;
+export type UserResponse = Omit<User, 'password'>;

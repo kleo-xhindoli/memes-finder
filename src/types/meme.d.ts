@@ -1,0 +1,42 @@
+import { Document } from 'mongoose';
+import { IUser } from './user';
+import { MemeProfile } from './memeprofile';
+import { OriginalSource } from './originalsource';
+import { isMemberExpression } from '@babel/types';
+
+interface Meme extends Document {
+  _id: string;
+  title: string;
+  description: string;
+  keyPhrases: string[];
+  sourceUrls: {
+    video: string[];
+    image: string[];
+    thumbnail: string;
+  };
+  participants: string[];
+  createdAt: Date;
+  updatedAt: Date;
+  createdBy: IUser;
+  updatedBy: IUser;
+  originalSources: OriginalSource[];
+  lang: 'al' | 'en';
+  _links: {
+    related: Meme[];
+    profile: MemeProfile;
+  };
+}
+
+export type MemeInput = Pick<
+  Meme,
+  | 'title'
+  | 'description'
+  | 'keyPhrases'
+  | 'sourceUrls'
+  | 'participants'
+  | 'originalSources'
+  | 'lang'
+>;
+
+type IMeme = Meme & Document;
+export type MemeResponse = Meme;
