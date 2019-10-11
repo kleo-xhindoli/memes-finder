@@ -14,9 +14,9 @@ export async function loginUser(req: Request, res: Response, next: NextFn) {
     res.json(user);
   } catch (e) {
     if (e instanceof InvalidEmailOrPasswordError) {
-      return next(boom.badRequest('email not found!'));
+      return next(boom.badRequest('incorrect email or password'));
     }
-    next(boom.badImplementation());
+    next(boom.badImplementation(e));
   }
 }
 
@@ -29,6 +29,6 @@ export async function registerUser(req: Request, res: Response, next: NextFn) {
     if (e instanceof EmailExistsError) {
       return next(boom.badRequest('Email already exists'));
     }
-    next(boom.badImplementation());
+    next(boom.badImplementation(e));
   }
 }

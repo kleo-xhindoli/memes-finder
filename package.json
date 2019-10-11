@@ -6,8 +6,8 @@
   "scripts": {
     "start": "nodemon --inspect",
     "build": "tsc",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "test": "NODE_ENV=test jest",
+    "test:watch": "NODE_ENV=test jest --watch --forceExit"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.1",
@@ -22,8 +22,10 @@
     "@types/mongoose": "^5.5.19",
     "@types/morgan": "^1.7.37",
     "@types/node": "^12.7.11",
+    "@types/supertest": "^2.0.8",
     "jest": "^24.9.0",
     "nodemon": "^1.19.3",
+    "supertest": "^4.0.2",
     "ts-jest": "^24.1.0",
     "ts-node": "^8.4.1",
     "typescript": "^3.6.3"
