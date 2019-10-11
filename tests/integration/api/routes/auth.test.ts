@@ -262,17 +262,17 @@ describe('Authentication API', () => {
       expect(res.body.message.toLowerCase()).toContain('email');
     });
 
-    it('should respond with 400 if the email is missing', async () => {
+    it('should respond with 400 if the password is missing', async () => {
       expect.assertions(2);
 
       const res = await request(app)
         .post('/api/auth/login')
         .send({
-          password: 'pass1234.',
+          email: dbUser.email,
         });
 
       expect(res.status).toBe(400);
-      expect(res.body.message.toLowerCase()).toContain('email');
+      expect(res.body.message.toLowerCase()).toContain('password');
     });
   });
 });
