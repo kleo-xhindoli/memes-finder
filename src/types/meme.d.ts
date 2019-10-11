@@ -10,21 +10,22 @@ interface Meme extends Document {
   description: string;
   keyPhrases: string[];
   sourceUrls: {
-    video: string[];
-    image: string[];
-    thumbnail: string;
+    video?: string;
+    image?: string;
+    thumbnail?: string;
   };
-  participants: string[];
-  createdAt: Date;
-  updatedAt: Date;
-  createdBy: IUser;
-  updatedBy: IUser;
+  participants?: string[];
   originalSources: OriginalSource[];
   lang: 'al' | 'en';
-  _links: {
-    related: Meme[];
-    profile: MemeProfile;
-  };
+  createdBy: IUser;
+  updatedBy: IUser;
+  createdAt: Date;
+  updatedAt: Date;
+  // TODO: implement
+  // _links: {
+  //   related: Meme[];
+  //   profile: MemeProfile;
+  // };
 }
 
 export type MemeInput = Pick<

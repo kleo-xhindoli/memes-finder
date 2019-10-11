@@ -10,8 +10,8 @@ interface MemeProfile {
   keyPhrases: string;
   originalSources: OriginalSource[];
   createdBy: User;
-  createdAt: Date;
   updatedBy: User;
+  createdAt: Date;
   updatedAt: Date;
 }
 
