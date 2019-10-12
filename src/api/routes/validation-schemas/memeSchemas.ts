@@ -1,4 +1,4 @@
-import joi from 'joi';
+import joi, { string } from 'joi';
 
 export const createPayloadSchema = {
   title: joi.string().required(),
@@ -49,4 +49,19 @@ export const updatePayloadSchema = {
     })
   ),
   lang: joi.string().valid(['en', 'al']),
+};
+
+export const searchQuerySchema = {
+  page: joi
+    .number()
+    .min(0)
+    .default(0),
+  size: joi
+    .number()
+    .min(0)
+    .default(50),
+  query: joi
+    .string()
+    .required()
+    .min(3),
 };

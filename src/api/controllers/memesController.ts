@@ -86,3 +86,23 @@ export async function deleteMeme(req: Request, res: Response, next: NextFn) {
     return next(Boom.badImplementation(e));
   }
 }
+
+type SearchQueryParamsInput = PaginationInput & { query: string };
+
+export async function searchMeme(req: any, res: Response, next: NextFn) {
+  const {
+    page,
+    size,
+    query,
+  } = req.validatedQueryParams as SearchQueryParamsInput;
+  try {
+    const result = await MemeService.search(
+      query,
+      parseInt(size),
+      parseInt(page)
+    );
+    res.json(result);
+  } catch (e) {
+    return next(Boom.badImplementation(e));
+  }
+}

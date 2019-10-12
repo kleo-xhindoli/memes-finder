@@ -23,4 +23,19 @@ const MemeSchema: Schema = new Schema(
   }
 );
 
+MemeSchema.index(
+  {
+    title: 'text',
+    description: 'text',
+    keyPhrases: 'text',
+  },
+  {
+    weights: {
+      title: 10,
+      description: 5,
+      keyPhrases: 2,
+    },
+  }
+);
+
 export default mongoose.model<IMeme>('Meme', MemeSchema);

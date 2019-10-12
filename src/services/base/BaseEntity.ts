@@ -25,20 +25,21 @@ export default function BaseEntity<T extends Document>(model: Model<T>) {
       size: number,
       page: number,
       sort = 'updatedAt',
-      sortDirection: 'asc' | 'desc' = 'desc'
+      sortDirection: 'asc' | 'desc' = 'desc',
+      filterConditions: any = {}
     ): Promise<PaginatedResponse<T>> {
       return new Promise((resolve, reject) => {
         const skip = size * page;
         const sortObj = { [sort]: sortDirection === 'desc' ? -1 : 1 };
 
         model
-          .find({})
+          .find(filterConditions)
           .sort(sortObj)
           .skip(skip)
           .limit(size)
           .exec((err, docs) => {
             if (err) return reject(err);
-            model.countDocuments((err, total) => {
+            model.countDocuments(filterConditions, (err, total) => {
               if (err) return reject(err);
               resolve({
                 data: docs,
