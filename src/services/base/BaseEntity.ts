@@ -77,7 +77,7 @@ export default function BaseEntity<T extends Document>(model: Model<T>) {
 
     async updateById(id: string, updated: Partial<T>): Promise<T | null> {
       return new Promise((resolve, reject) => {
-        model.findByIdAndUpdate(id, updated, (err, res) => {
+        model.findByIdAndUpdate(id, updated, { new: true }, (err, res) => {
           if (err) return reject(err);
           resolve(res);
         });
@@ -86,10 +86,15 @@ export default function BaseEntity<T extends Document>(model: Model<T>) {
 
     async update(condition: any, updated: Partial<T>): Promise<T | null> {
       return new Promise((resolve, reject) => {
-        model.update(condition, updated, (err, res) => {
-          if (err) return reject(err);
-          resolve(res);
-        });
+        model.findOneAndUpdate(
+          condition,
+          updated,
+          { new: true },
+          (err, res) => {
+            if (err) return reject(err);
+            resolve(res);
+          }
+        );
       });
     },
 
