@@ -20,7 +20,7 @@ export const createPayloadSchema = {
     joi
       .object()
       .keys({
-        title: joi.string(),
+        name: joi.string(),
         url: joi.string().uri(),
       })
       .default([])
