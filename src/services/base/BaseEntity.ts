@@ -1,4 +1,5 @@
 import { Model, Document } from 'mongoose';
+import { PaginatedResponse } from '../../types';
 
 export default function BaseEntity<T extends Document>(model: Model<T>) {
   return {
@@ -17,6 +18,38 @@ export default function BaseEntity<T extends Document>(model: Model<T>) {
           if (err) return reject(err);
           resolve(res);
         });
+      });
+    },
+
+    async getPaginated(
+      size: number,
+      page: number,
+      sort = 'updatedAt',
+      sortDirection: 'asc' | 'desc' = 'desc'
+    ): Promise<PaginatedResponse<T>> {
+      return new Promise((resolve, reject) => {
+        const skip = size * page;
+        const sortObj = { [sort]: sortDirection === 'desc' ? -1 : 1 };
+
+        model
+          .find({})
+          .sort(sortObj)
+          .skip(skip)
+          .limit(size)
+          .exec((err, docs) => {
+            if (err) return reject(err);
+            model.countDocuments((err, total) => {
+              if (err) return reject(err);
+              resolve({
+                data: docs,
+                meta: {
+                  size,
+                  page,
+                  total,
+                },
+              });
+            });
+          });
       });
     },
 
