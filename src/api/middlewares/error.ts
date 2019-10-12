@@ -34,7 +34,17 @@ export function converter(err: any, req: Request, res: Response, next: NextFn) {
   }
 
   if (err.isBoom) {
-    return handler(err, req, res);
+    // Common Mongoose errors
+    switch (err.name) {
+      // Invalid Object Id cast error:
+      case 'CastError': {
+        const error = Boom.notFound(`${err.value} is not a valid ID!`);
+        return handler(error, req, res);
+      }
+
+      default:
+        return handler(err, req, res);
+    }
   }
 
   const error = Boom.badImplementation(err.message || 'Server Error');

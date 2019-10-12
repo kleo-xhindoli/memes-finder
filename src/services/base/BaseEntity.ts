@@ -3,9 +3,9 @@ import { PaginatedResponse } from '../../types';
 
 export default function BaseEntity<T extends Document>(model: Model<T>) {
   return {
-    async getById(id: string): Promise<T> {
+    async getById(id: string): Promise<T | null> {
       return new Promise((resolve, reject) => {
-        model.findById(id, (err, res: T) => {
+        model.findById(id, (err, res) => {
           if (err) return reject(err);
           resolve(res);
         });
