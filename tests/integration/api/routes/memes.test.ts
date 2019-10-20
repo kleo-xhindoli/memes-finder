@@ -1,16 +1,19 @@
 import request from 'supertest';
 import { testData, generateMemes, inputData } from './test-data/memes';
-import app from '../../../../src';
+import app, { server, connection } from '../../../../src';
 import Meme from '../../../../src/models/Meme.model';
 
 const DEFAULT_PAGE_SIZE = 50;
 
-
-
-describe('Memes API', () => {
+describe('Integration | Memes API', () => {
   beforeEach(async () => {
     await Meme.deleteMany({});
     await Meme.create(testData);
+  });
+
+  afterAll(async () => {
+    await server.close();
+    await connection.close();
   });
 
   describe('GET /api/memes', () => {

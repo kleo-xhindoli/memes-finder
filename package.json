@@ -6,10 +6,11 @@
   "scripts": {
     "start": "nodemon --inspect",
     "build": "tsc",
-    "test": "NODE_ENV=test jest",
-    "test:watch": "NODE_ENV=test jest --watch --forceExit"
+    "test": "NODE_ENV=test jest --maxWorkers=1 --detectOpenHandles",
+    "test:watch": "NODE_ENV=test jest --watch --forceExit --maxWorkers=1"
   },
   "devDependencies": {
+    "@shelf/jest-mongodb": "^1.1.2",
     "@types/body-parser": "^1.17.1",
     "@types/boom": "^7.3.0",
     "@types/cors": "^2.8.6",
