@@ -137,7 +137,38 @@ describe('Integration | Memes API', () => {
     });
   });
 
-  // TODO: test Updates existing meme correctly
+  describe('PUT /api/memes', () => {
+    it('should update the meme fields provided in the payload', async () => {
+      expect.assertions(5);
+      const existing = await Meme.findOne({});
+
+      if (!existing) throw new Error('No seed test data!');
+
+      const updatedFields = {
+        title: 'Updated title',
+        keyPhrases: ['one', 'two'],
+        description: 'Updated description',
+      };
+
+      const res = await request(app)
+        .put(`/api/memes/${existing.id}`)
+        .send(updatedFields);
+
+      expect(res.status).toBe(200);
+      expect(res.body).toMatchObject({ _id: existing.id, ...updatedFields });
+
+      const updatedMeme = await Meme.findById(existing._id);
+
+      if (!updatedMeme)
+        throw new Error('No updated meme object found in the db!');
+
+      expect(updatedMeme.title).toBe(updatedFields.title);
+      expect(updatedMeme.keyPhrases).toEqual(
+        expect.arrayContaining(updatedFields.keyPhrases)
+      );
+      expect(updatedMeme.description).toBe(updatedFields.description);
+    });
+  });
   // TODO: test Deletes a single meme item
   // TODO: test Search
 });
