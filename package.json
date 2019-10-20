@@ -7,7 +7,9 @@
     "start": "nodemon --inspect",
     "build": "tsc",
     "test": "NODE_ENV=test jest --maxWorkers=1 --detectOpenHandles",
-    "test:watch": "NODE_ENV=test jest --watch --forceExit --maxWorkers=1"
+    "test:watch": "NODE_ENV=test jest --watch --forceExit --maxWorkers=1",
+    "test:unit": "NODE_ENV=test jest -c jest.config.unit.js",
+    "test:integration": "NODE_ENV=test jest -c jest.config.integration.js --maxWorkers=1"
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.1.2",
