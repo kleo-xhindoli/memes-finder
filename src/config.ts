@@ -10,7 +10,7 @@ config({
 });
 
 const port = process.env.PORT as string;
-const mongoConnectionUri = process.env.MONGODB_CONNECTION as string;
+const mongoConnectionUri = process.env.MONGO_URL as string;
 const apiBasePath = process.env.API_BASE_PATH as string;
 const secret = process.env.SECRET as string;
 
