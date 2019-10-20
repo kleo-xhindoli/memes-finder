@@ -99,5 +99,45 @@ describe('Integration | Memes API', () => {
       const dbObj = await Meme.findById(res.body._id);
       expect(dbObj).not.toBeNull();
     });
+
+    it('should respond with 400 if no `title` is provided in the payload', async () => {
+      expect.assertions(3);
+
+      await Meme.deleteMany({});
+
+      const badData = { ...inputData };
+      delete badData.title;
+
+      const res = await request(app)
+        .post('/api/memes')
+        .send(badData);
+
+      expect(res.status).toBe(400);
+      expect(res.body.message).toContain('title');
+      const docsLen = await Meme.countDocuments({});
+      expect(docsLen).toBe(0);
+    });
+
+    it('should respond with 400 if no `description` is provided in the payload', async () => {
+      expect.assertions(3);
+
+      await Meme.deleteMany({});
+
+      const badData = { ...inputData };
+      delete badData.description;
+
+      const res = await request(app)
+        .post('/api/memes')
+        .send(badData);
+
+      expect(res.status).toBe(400);
+      expect(res.body.message).toContain('description');
+      const docsLen = await Meme.countDocuments({});
+      expect(docsLen).toBe(0);
+    });
   });
+
+  // TODO: test Updates existing meme correctly
+  // TODO: test Deletes a single meme item
+  // TODO: test Search
 });
