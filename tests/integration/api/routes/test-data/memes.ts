@@ -16,26 +16,6 @@ export const testData = [
       },
     ],
     lang: 'en',
-    createdAt: '2019-10-12T14:16:49.666Z',
-    updatedAt: '2019-10-12T14:16:49.666Z',
-  },
-  {
-    sourceUrls: {
-      image: 'https://i.redd.it/4hrn18t4lck31.jpg',
-      thumbnail: 'https://i.redd.it/4hrn18t4lck31.jpg',
-    },
-    keyPhrases: ['area 51', 'police', 'shopping', 'cart', 'running'],
-    participants: [],
-    title: 'The Area 51 raid is still happening right?',
-    description: 'Me leaving area 51 with a shopping trolley that has 4 wheels',
-    originalSources: [
-      {
-        name: 'reddit',
-        url:
-          'https://www.reddit.com/r/memes/comments/cz2i20/the_area_51_raid_is_still_happening_right/',
-      },
-    ],
-    lang: 'en',
     createdAt: '2019-10-12T13:30:56.026Z',
     updatedAt: '2019-10-12T13:47:07.244Z',
   },
