@@ -1,10 +1,11 @@
 import { Model, Document } from 'mongoose';
+import { PaginatedResponse } from '../../types';
 
 export default function BaseEntity<T extends Document>(model: Model<T>) {
   return {
-    async getById(id: string): Promise<T> {
+    async getById(id: string): Promise<T | null> {
       return new Promise((resolve, reject) => {
-        model.findById(id, (err, res: T) => {
+        model.findById(id, (err, res) => {
           if (err) return reject(err);
           resolve(res);
         });
@@ -17,6 +18,39 @@ export default function BaseEntity<T extends Document>(model: Model<T>) {
           if (err) return reject(err);
           resolve(res);
         });
+      });
+    },
+
+    async getPaginated(
+      size: number,
+      page: number,
+      sort = 'updatedAt',
+      sortDirection: 'asc' | 'desc' = 'desc',
+      filterConditions: any = {}
+    ): Promise<PaginatedResponse<T>> {
+      return new Promise((resolve, reject) => {
+        const skip = size * page;
+        const sortObj = { [sort]: sortDirection === 'desc' ? -1 : 1 };
+
+        model
+          .find(filterConditions)
+          .sort(sortObj)
+          .skip(skip)
+          .limit(size)
+          .exec((err, docs) => {
+            if (err) return reject(err);
+            model.countDocuments(filterConditions, (err, total) => {
+              if (err) return reject(err);
+              resolve({
+                data: docs,
+                meta: {
+                  size,
+                  page,
+                  total,
+                },
+              });
+            });
+          });
       });
     },
 
@@ -44,7 +78,7 @@ export default function BaseEntity<T extends Document>(model: Model<T>) {
 
     async updateById(id: string, updated: Partial<T>): Promise<T | null> {
       return new Promise((resolve, reject) => {
-        model.findByIdAndUpdate(id, updated, (err, res) => {
+        model.findByIdAndUpdate(id, updated, { new: true }, (err, res) => {
           if (err) return reject(err);
           resolve(res);
         });
@@ -53,10 +87,15 @@ export default function BaseEntity<T extends Document>(model: Model<T>) {
 
     async update(condition: any, updated: Partial<T>): Promise<T | null> {
       return new Promise((resolve, reject) => {
-        model.update(condition, updated, (err, res) => {
-          if (err) return reject(err);
-          resolve(res);
-        });
+        model.findOneAndUpdate(
+          condition,
+          updated,
+          { new: true },
+          (err, res) => {
+            if (err) return reject(err);
+            resolve(res);
+          }
+        );
       });
     },
 

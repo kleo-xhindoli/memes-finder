@@ -12,3 +12,14 @@ export function validateBody(schema: SchemaMap) {
     next();
   };
 }
+
+export function validateQueryParams(schema: SchemaMap) {
+  return (req: any, res: Response, next: NextFn) => {
+    const validationResult = validate(req.query, schema);
+    req.validatedQueryParams = validationResult.value;
+    if (validationResult.error) {
+      return next(validationResult.error);
+    }
+    next();
+  }
+}

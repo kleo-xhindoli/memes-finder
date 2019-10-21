@@ -1,4 +1,4 @@
-import boom from 'boom';
+import Boom from 'boom';
 import { login, register } from '../../services/Auth.service';
 import { Request, Response } from 'express';
 import {
@@ -14,9 +14,9 @@ export async function loginUser(req: Request, res: Response, next: NextFn) {
     res.json(user);
   } catch (e) {
     if (e instanceof InvalidEmailOrPasswordError) {
-      return next(boom.badRequest('incorrect email or password'));
+      return next(Boom.badRequest('incorrect email or password'));
     }
-    next(boom.badImplementation(e));
+    next(Boom.badImplementation());
   }
 }
 
@@ -27,8 +27,8 @@ export async function registerUser(req: Request, res: Response, next: NextFn) {
     res.json(registered);
   } catch (e) {
     if (e instanceof EmailExistsError) {
-      return next(boom.badRequest('Email already exists'));
+      return next(Boom.badRequest('Email already exists'));
     }
-    next(boom.badImplementation(e));
+    next(Boom.badImplementation());
   }
 }

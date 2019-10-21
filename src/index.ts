@@ -10,8 +10,10 @@ if (!mongoConnectionUri) {
 }
 
 // connect to mongoDB
-connect(mongoConnectionUri);
+export const connection = connect(mongoConnectionUri);
 
-app.listen(port, () => logger.info(`server started on port ${port} (${env})`));
+export const server = app.listen(port, () =>
+  logger.info(`server started on port ${port} (${env})`)
+);
 
 export default app;

@@ -1,8 +1,8 @@
 import request from 'supertest';
-import app from '../../../../src';
-import User from '../../../../src/models/User';
+import app, { server, connection } from '../../../../src';
+import User from '../../../../src/models/User.model';
 
-describe('Authentication API', () => {
+describe('Integration | Authentication API', () => {
   const dbUser = {
     email: 'test@email.com',
     firstName: 'Test',
@@ -20,6 +20,11 @@ describe('Authentication API', () => {
   beforeEach(async () => {
     await User.deleteMany({});
     await User.create(dbUser);
+  });
+
+  afterAll(async () => {
+    await server.close();
+    await connection.close();
   });
 
   describe('/api/auth/register', () => {

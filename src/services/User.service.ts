@@ -1,4 +1,4 @@
-import User from '../models/User';
+import User from '../models/User.model';
 import { IUser, UserInput, UserResponse } from '../types';
 import BaseEntity from './base/BaseEntity';
 

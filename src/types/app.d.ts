@@ -1,13 +1,17 @@
-import { Request } from 'express';
+export type NextFn = (err?: Error | string) => any;
 
-export interface Context {
-  validation: {
-    validatedBody: any;
+export interface PaginatedResponse<T> {
+  data: T[];
+  meta: {
+    page: number;
+    size: number;
+    total: number;
   };
 }
 
-export interface RequestWithCtx extends Request {
-  ctx: Context;
+export interface PaginationInput {
+  page: string;
+  size: string;
+  sort: string;
+  sortDirection: 'asc' | 'desc';
 }
-
-export type NextFn = (err?: Error | string) => any;
