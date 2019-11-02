@@ -1,14 +1,16 @@
 name: CI
 on: [push]
 jobs:
-  build:
+  test:
     name: Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - uses: nuxt/actions-yarn@node-10
+      - name: yarn install
+        uses: nuxt/actions-yarn@node-10
         with:
           args: install # will run `yarn install` command
-      - uses: nuxt/actions-yarn@node-10
+      - name: yarn test
+        uses: nuxt/actions-yarn@node-10
         with:
           args: test # will run `yarn test` command
