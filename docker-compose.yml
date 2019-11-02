@@ -3,7 +3,7 @@ services:
   memes-finder-api:
     build: .
     environment:
-      - MONGO_URI=mongodb://mongodb:27017/memesfinder
+      - MONGO_URL=mongodb://mongodb:27017/memesfinder
     volumes:
       - .:/app
     ports:
