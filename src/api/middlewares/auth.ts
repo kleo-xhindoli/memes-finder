@@ -6,7 +6,7 @@ import Boom from 'boom';
 export default async function auth(req: any, res: Response, next: NextFn) {
   const authHeader = req.header('Authorization');
   if (!authHeader)
-    return next(Boom.unauthorized('Authentication header is missing'));
+    return next(Boom.unauthorized('Authorization header is missing'));
 
   try {
     const token = authHeader.replace('Bearer ', '');
