@@ -1,5 +1,6 @@
 import express from 'express';
 import { validateQueryParams, validateBody } from '../middlewares/validator';
+import auth from '../middlewares/auth';
 import { paginatedQuerySchema } from './validation-schemas/paginationSchemas';
 import {
   createPayloadSchema,
@@ -18,10 +19,10 @@ import {
 const router = express.Router();
 
 router.get('/', validateQueryParams(paginatedQuerySchema), getAllPaginated);
-router.post('/', validateBody(createPayloadSchema), createMeme);
+router.post('/', auth, validateBody(createPayloadSchema), createMeme);
 router.get('/search', validateQueryParams(searchQuerySchema), searchMeme);
 router.get('/:memeId', getMemeById);
-router.put('/:memeId', validateBody(updatePayloadSchema), updateMeme);
-router.delete('/:memeId', deleteMeme);
+router.put('/:memeId', auth, validateBody(updatePayloadSchema), updateMeme);
+router.delete('/:memeId', auth, deleteMeme);
 
 export default router;

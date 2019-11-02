@@ -12,6 +12,7 @@ export default async function auth(req: any, res: Response, next: NextFn) {
     const token = authHeader.replace('Bearer ', '');
     const decoded = verifyAndDecode(token);
     req.decoded = decoded;
+    next();
   } catch (e) {
     next(Boom.unauthorized('Invalid token'));
   }
