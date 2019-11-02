@@ -1,5 +1,9 @@
 import Boom from 'boom';
-import { login, register } from '../../services/Auth.service';
+import {
+  login,
+  register,
+  generateAuthToken,
+} from '../../services/Auth.service';
 import { Request, Response } from 'express';
 import {
   InvalidEmailOrPasswordError,
@@ -11,7 +15,8 @@ export async function loginUser(req: Request, res: Response, next: NextFn) {
   try {
     const { email, password } = req.body;
     const user = await login(email, password);
-    res.json(user);
+    const authToken = generateAuthToken(user);
+    res.json({ user, authToken });
   } catch (e) {
     if (e instanceof InvalidEmailOrPasswordError) {
       return next(Boom.badRequest('incorrect email or password'));
@@ -23,8 +28,9 @@ export async function loginUser(req: Request, res: Response, next: NextFn) {
 export async function registerUser(req: Request, res: Response, next: NextFn) {
   try {
     const { email, password, firstName, lastName } = req.body;
-    const registered = await register(email, password, firstName, lastName);
-    res.json(registered);
+    const user = await register(email, password, firstName, lastName);
+    const authToken = generateAuthToken(user);
+    res.json({ user, authToken });
   } catch (e) {
     if (e instanceof EmailExistsError) {
       return next(Boom.badRequest('Email already exists'));

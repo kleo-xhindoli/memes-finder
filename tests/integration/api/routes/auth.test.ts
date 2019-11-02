@@ -29,7 +29,7 @@ describe('Integration | Authentication API', () => {
 
   describe('/api/auth/register', () => {
     it('should allow registration with valid data', async () => {
-      expect.assertions(5);
+      expect.assertions(6);
 
       const res = await request(app)
         .post('/api/auth/register')
@@ -38,12 +38,11 @@ describe('Integration | Authentication API', () => {
         });
 
       expect(res.status).toBe(200);
-      expect(res.body.firstName).toBe(newUser.firstName);
-      expect(res.body.lastName).toBe(newUser.lastName);
-      expect(res.body.email).toBe(newUser.email);
-      expect(res.body.password).toBeUndefined();
-
-      // TODO: add expects for tokens here
+      expect(res.body.user.firstName).toBe(newUser.firstName);
+      expect(res.body.user.lastName).toBe(newUser.lastName);
+      expect(res.body.user.email).toBe(newUser.email);
+      expect(res.body.user.password).toBeUndefined();
+      expect(res.body.authToken).toBeDefined();
     });
 
     // Email
@@ -193,7 +192,7 @@ describe('Integration | Authentication API', () => {
   // Login
   describe('/api/auth/login', () => {
     it('should respond with the user when credentials are valid', async () => {
-      expect.assertions(5);
+      expect.assertions(6);
 
       const res = await request(app)
         .post('/api/auth/login')
@@ -203,12 +202,11 @@ describe('Integration | Authentication API', () => {
         });
 
       expect(res.status).toBe(200);
-      expect(res.body.firstName).toBe(dbUser.firstName);
-      expect(res.body.lastName).toBe(dbUser.lastName);
-      expect(res.body.email).toBe(dbUser.email);
-      expect(res.body.password).toBeUndefined();
-
-      // TODO: add expects for tokens here
+      expect(res.body.user.firstName).toBe(dbUser.firstName);
+      expect(res.body.user.lastName).toBe(dbUser.lastName);
+      expect(res.body.user.email).toBe(dbUser.email);
+      expect(res.body.user.password).toBeUndefined();
+      expect(res.body.authToken).toBeDefined();
     });
 
     it('should respond with 400 if the given email dosnt exist', async () => {
