@@ -49,7 +49,13 @@ export async function login(
   return UserService.toResponseObject(user);
 }
 
-export async function checkIfUserIsAuthenticated(token: string) {
+export function verifyAndDecode(token: string) {
   let isAuthed = jwt.verify(token, config.secret);
   return isAuthed;
+}
+
+export function generateAuthToken(user: UserResponse): string {
+  return jwt.sign(user, config.secret, {
+    expiresIn: config.tokenLifespan,
+  });
 }

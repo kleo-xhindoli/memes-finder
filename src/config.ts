@@ -20,4 +20,5 @@ export default {
   mongoConnectionUri,
   apiBasePath,
   secret,
+  tokenLifespan: '1h'
 };
