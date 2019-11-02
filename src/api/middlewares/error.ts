@@ -20,7 +20,7 @@ export function handler(err: any, req: Request, res: Response) {
   res.json(response);
 
   // Log 5XX errors
-  if (response.status >= 500) {
+  if (response.status >= 500 && config.env !== 'test') {
     console.error(err);
   }
 }

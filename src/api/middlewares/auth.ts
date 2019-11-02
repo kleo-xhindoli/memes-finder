@@ -3,7 +3,7 @@ import { NextFn } from '../../types';
 import { verifyAndDecode } from '../../services/Auth.service';
 import Boom from 'boom';
 
-export default async function auth(req: any, res: Response, next: NextFn) {
+export default function auth(req: any, res: Response, next: NextFn) {
   const authHeader = req.header('Authorization');
   if (!authHeader)
     return next(Boom.unauthorized('Authorization header is missing'));
