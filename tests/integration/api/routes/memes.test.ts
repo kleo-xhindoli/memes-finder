@@ -1,5 +1,10 @@
 import request from 'supertest';
 import { testData, generateMemes, inputData } from './test-data/memes';
+import {
+  authToken,
+  expiredToken,
+  invalidSecretToken,
+} from './test-data/tokens';
 import app, { server, connection } from '../../../../src';
 import Meme from '../../../../src/models/Meme.model';
 
@@ -86,12 +91,51 @@ describe('Integration | Memes API', () => {
   });
 
   describe('POST /api/memes', () => {
+    it('should respond with 401 if no token is provided', async () => {
+      const res = await request(app)
+        .post('/api/memes')
+        .send(inputData);
+
+      expect(res.status).toBe(401);
+      expect(res.body.message).toBe('Authorization header is missing');
+
+      const count = await Meme.countDocuments();
+      expect(count).toBe(testData.length);
+    });
+
+    it('should respond with 401 if invalid token is provided', async () => {
+      const res = await request(app)
+        .post('/api/memes')
+        .send(inputData)
+        .set('Authorization', invalidSecretToken);
+
+      expect(res.status).toBe(401);
+      expect(res.body.message).toBe('Invalid token');
+
+      const count = await Meme.countDocuments();
+      expect(count).toBe(testData.length);
+    });
+
+    it('should respond with 401 if an expired token is provided', async () => {
+      const res = await request(app)
+        .post('/api/memes')
+        .send(inputData)
+        .set('Authorization', `Bearer ${expiredToken}`);
+
+      expect(res.status).toBe(401);
+      expect(res.body.message).toBe('Invalid token');
+
+      const count = await Meme.countDocuments();
+      expect(count).toBe(testData.length);
+    });
+
     it('should create a new Meme entry with valid input data', async () => {
       expect.assertions(3);
 
       const res = await request(app)
         .post('/api/memes')
-        .send(inputData);
+        .send(inputData)
+        .set('Authorization', `Bearer ${authToken}`);
 
       expect(res.status).toBe(200);
       expect(res.body).toMatchObject(inputData);
@@ -110,7 +154,8 @@ describe('Integration | Memes API', () => {
 
       const res = await request(app)
         .post('/api/memes')
-        .send(badData);
+        .send(badData)
+        .set('Authorization', `Bearer ${authToken}`);
 
       expect(res.status).toBe(400);
       expect(res.body.message).toContain('title');
@@ -128,7 +173,8 @@ describe('Integration | Memes API', () => {
 
       const res = await request(app)
         .post('/api/memes')
-        .send(badData);
+        .send(badData)
+        .set('Authorization', `Bearer ${authToken}`);
 
       expect(res.status).toBe(400);
       expect(res.body.message).toContain('description');
@@ -138,6 +184,62 @@ describe('Integration | Memes API', () => {
   });
 
   describe('PUT /api/memes/:id', () => {
+    it('should respond with 401 if no token is provided', async () => {
+      expect.assertions(3);
+      const existing = await Meme.findOne({});
+
+      if (!existing) throw new Error('No seed test data!');
+
+      const res = await request(app)
+        .put(`/api/memes/${existing.id}`)
+        .send({ title: 'blah' });
+
+      expect(res.status).toBe(401);
+      expect(res.body.message).toBe('Authorization header is missing');
+
+      const dbo = await Meme.findById(existing.id);
+      if (!dbo) throw new Error('Unexpected behaviour!');
+      expect(dbo.title).toBe(existing.title);
+    });
+
+    it('should respond with 401 if invalid token is provided', async () => {
+      expect.assertions(3);
+      const existing = await Meme.findOne({});
+
+      if (!existing) throw new Error('No seed test data!');
+
+      const res = await request(app)
+        .put(`/api/memes/${existing.id}`)
+        .send({ title: 'blah' })
+        .set('Authorization', `Bearer ${invalidSecretToken}`);
+
+      expect(res.status).toBe(401);
+      expect(res.body.message).toBe('Invalid token');
+
+      const dbo = await Meme.findById(existing.id);
+      if (!dbo) throw new Error('Unexpected behaviour!');
+      expect(dbo.title).toBe(existing.title);
+    });
+
+    it('should respond with 401 if an expired token is provided', async () => {
+      expect.assertions(3);
+      const existing = await Meme.findOne({});
+
+      if (!existing) throw new Error('No seed test data!');
+
+      const res = await request(app)
+        .put(`/api/memes/${existing.id}`)
+        .send({ title: 'blah' })
+        .set('Authorization', `Bearer ${expiredToken}`);
+
+      expect(res.status).toBe(401);
+      expect(res.body.message).toBe('Invalid token');
+
+      const dbo = await Meme.findById(existing.id);
+      if (!dbo) throw new Error('Unexpected behaviour!');
+      expect(dbo.title).toBe(existing.title);
+    });
+
     it('should update the meme fields provided in the payload', async () => {
       expect.assertions(5);
       const existing = await Meme.findOne({});
@@ -152,7 +254,8 @@ describe('Integration | Memes API', () => {
 
       const res = await request(app)
         .put(`/api/memes/${existing.id}`)
-        .send(updatedFields);
+        .send(updatedFields)
+        .set('Authorization', `Bearer ${authToken}`);
 
       expect(res.status).toBe(200);
       expect(res.body).toMatchObject({ _id: existing.id, ...updatedFields });
@@ -171,12 +274,65 @@ describe('Integration | Memes API', () => {
   });
 
   describe('DELETE /api/memes/:id', () => {
+    it('should respond with 401 if no token is provided', async () => {
+      expect.assertions(3);
+
+      const existing = await Meme.findOne({});
+      if (!existing) throw new Error('No seed test data!');
+
+      const res = await request(app)
+        .delete(`/api/memes/${existing.id}`)
+        .send(inputData);
+
+      expect(res.status).toBe(401);
+      expect(res.body.message).toBe('Authorization header is missing');
+
+      const count = await Meme.countDocuments();
+      expect(count).toBe(testData.length);
+    });
+
+    it('should respond with 401 if invalid token is provided', async () => {
+      expect.assertions(3);
+
+      const existing = await Meme.findOne({});
+      if (!existing) throw new Error('No seed test data!');
+
+      const res = await request(app)
+        .delete(`/api/memes/${existing.id}`)
+        .set('Authorization', invalidSecretToken);
+
+      expect(res.status).toBe(401);
+      expect(res.body.message).toBe('Invalid token');
+
+      const count = await Meme.countDocuments();
+      expect(count).toBe(testData.length);
+    });
+
+    it('should respond with 401 if an expired token is provided', async () => {
+      expect.assertions(3);
+
+      const existing = await Meme.findOne({});
+      if (!existing) throw new Error('No seed test data!');
+
+      const res = await request(app)
+        .delete(`/api/memes/${existing.id}`)
+        .set('Authorization', `Bearer ${expiredToken}`);
+
+      expect(res.status).toBe(401);
+      expect(res.body.message).toBe('Invalid token');
+
+      const count = await Meme.countDocuments();
+      expect(count).toBe(testData.length);
+    });
+
     it('should delete a single meme item', async () => {
       expect.assertions(3);
       const existing = await Meme.findOne({});
 
       if (!existing) throw new Error('No seed test data!');
-      const res = await request(app).delete(`/api/memes/${existing.id}`);
+      const res = await request(app)
+        .delete(`/api/memes/${existing.id}`)
+        .set('Authorization', `Bearer ${authToken}`);
 
       expect(res.status).toBe(200);
       expect(res.body).toMatchObject({ _id: existing.id });

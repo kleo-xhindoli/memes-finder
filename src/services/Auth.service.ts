@@ -50,8 +50,8 @@ export async function login(
 }
 
 export function verifyAndDecode(token: string) {
-  let isAuthed = jwt.verify(token, config.secret);
-  return isAuthed;
+  let decoded = jwt.verify(token, config.secret);
+  return decoded;
 }
 
 export function generateAuthToken(user: UserResponse): string {
