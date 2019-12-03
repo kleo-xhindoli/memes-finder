@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
 import { IUser } from './user';
-import { MemeProfile } from './memeprofile';
-import { OriginalSource } from './originalsource';
+import { MemeProfile } from './memeProfile';
+import { OriginalSource } from './originalSource';
 import { isMemberExpression } from '@babel/types';
 
 interface Meme extends Document {
