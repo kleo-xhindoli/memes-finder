@@ -1,6 +1,6 @@
 import request from 'supertest';
-import app, { server, connection } from '../../../../src';
-import User from '../../../../src/models/User.model';
+import app, { server, connection } from '../../../../index';
+import User from '../../../../models/User.model';
 
 describe('Integration | Authentication API', () => {
   const dbUser = {

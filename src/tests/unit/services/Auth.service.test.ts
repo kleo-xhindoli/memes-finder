@@ -1,10 +1,10 @@
-import UserService from '../../../src/services/User.service';
-import { register, login } from '../../../src/services/Auth.service';
+import UserService from '../../../services/User.service';
+import { register, login } from '../../../services/Auth.service';
 import {
   EmailExistsError,
   InvalidEmailOrPasswordError,
-} from '../../../src/utils/errors';
-jest.mock('../../../src/services/User.service');
+} from '../../../utils/errors';
+jest.mock('../../../services/User.service');
 
 const fakeUser = {
   email: 'test@email.com',

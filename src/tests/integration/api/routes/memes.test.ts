@@ -5,8 +5,8 @@ import {
   expiredToken,
   invalidSecretToken,
 } from './test-data/tokens';
-import app, { server, connection } from '../../../../src';
-import Meme from '../../../../src/models/Meme.model';
+import app, { server, connection } from '../../../../index';
+import Meme from '../../../../models/Meme.model';
 
 const DEFAULT_PAGE_SIZE = 50;
 

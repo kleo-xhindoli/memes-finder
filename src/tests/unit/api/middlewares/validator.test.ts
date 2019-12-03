@@ -3,7 +3,7 @@ import joi from 'joi';
 import {
   validateBody,
   validateQueryParams,
-} from '../../../../src/api/middlewares/validator';
+} from '../../../../api/middlewares/validator';
 
 const nextFn = jest.fn();
 let req: any = {};

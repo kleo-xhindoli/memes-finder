@@ -1,5 +1,5 @@
 const config = require('./jest.config.js');
 
-config.roots = ['<rootDir>/tests/unit/'];
+config.roots = ['<rootDir>/src/tests/unit/'];
 
 module.exports = config;

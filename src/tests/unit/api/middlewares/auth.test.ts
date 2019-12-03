@@ -1,7 +1,7 @@
-import * as AuthService from '../../../../src/services/Auth.service';
-import auth from '../../../../src/api/middlewares/auth';
+import * as AuthService from '../../../../services/Auth.service';
+import auth from '../../../../api/middlewares/auth';
 
-jest.mock('../../../../src/services/Auth.service');
+jest.mock('../../../../services/Auth.service');
 
 const nextFn = jest.fn();
 let req: any;

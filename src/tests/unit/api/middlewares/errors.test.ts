@@ -1,8 +1,8 @@
 import joi from 'joi';
-import { notFound, converter } from '../../../../src/api/middlewares/error';
+import { notFound, converter } from '../../../../api/middlewares/error';
 import Boom from 'boom';
 
-jest.mock('../../../../src/services/Auth.service');
+jest.mock('../../../../services/Auth.service');
 
 const nextFn = jest.fn();
 const req: any = {};
