@@ -28,3 +28,7 @@ steps:
 - script: |
     yarn test:integration
   displayName: 'Run Integration tests'
+
+- script: |
+    yarn build
+  displayName: 'Build'
