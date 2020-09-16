@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import UserService from './User.service';
 import { InvalidEmailOrPasswordError, EmailExistsError } from '../utils/errors';
 import { UserResponse } from '../types';

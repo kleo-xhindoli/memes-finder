@@ -1,0 +1,6 @@
+version: '2'
+services:
+  memes-finder-api:
+    command: yarn dev -- -L
+    environment:
+      - NODE_ENV=development
